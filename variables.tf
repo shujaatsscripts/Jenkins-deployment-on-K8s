@@ -18,10 +18,6 @@ variable "namespace" {
   default     = "jenkins"
 }
 
-variable "storageclass" {
-  description = "Strogeclassname for PV"
-  default     = "jenkins-pv"
-}
 
 
 

@@ -13,7 +13,7 @@ resource "kubernetes_persistent_volume_v1" "persistent_volume" {
       capacity = {
         storage = var.request_storage
       }
-      storage_class_name = var.storageclass
+      storage_class_name = "jenkins-pv"
       persistent_volume_source {
         host_path {
           path = "/data/jenkins-volume/"
