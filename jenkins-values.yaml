@@ -772,7 +772,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: jenkins-pv
+  storageClass:
   annotations: {}
   labels: {}
   accessMode: "ReadWriteOnce"
