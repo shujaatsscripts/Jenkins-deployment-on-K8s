@@ -15,8 +15,8 @@ resource "kubernetes_persistent_volume_v1" "persistent_volume" {
       }
       storage_class_name = var.storageclass
       persistent_volume_source {
-        vsphere_volume {
-          volume_path = "/data/jenkins-volume/"
+        host_path {
+          path = "/data/jenkins-volume/"
         }
       }
     }
@@ -104,5 +104,6 @@ resource "helm_release" "jenkins-server" {
     name  = "nodePort"
     value = "32000"
   }
+  timeout = 600
   depends_on = [kubernetes_cluster_role_binding_v1.jenkins-crb,kubernetes_namespace.jenkins_namespace, kubernetes_persistent_volume_v1.persistent_volume]
 }
