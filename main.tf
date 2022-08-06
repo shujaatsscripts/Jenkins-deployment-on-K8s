@@ -82,9 +82,8 @@ resource "kubernetes_cluster_role_binding_v1" "jenkins-crb" {
   }
   subject {
     kind      = "Group"
-    name      = "system:serviceaccounts:jenkins"
+    name      = "system:serviceaccounts:default"
     api_group = "rbac.authorization.k8s.io"
-    namespace = "jenkins"
   }
   depends_on = [kubernetes_cluster_role_v1.jenkins-cluster-role ]
 }
