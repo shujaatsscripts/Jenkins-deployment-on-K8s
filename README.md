@@ -21,6 +21,18 @@ Copy the password and the link printed at the end of the script
 Open the link in the browser
 Add username as admin and add the password 
 
+### Optional
+
+If you are using any cloudprovider server like EC2 install
+then you need ngninx installation
+
+After installation run the following command to configure nginx site
+```
+$ bash nginx.sh
+```
+
+Important: This script will replace default file. If you are already using nginx kindly create a new site with nginx conf
+
 ## Step by Step process of the script
 
 These are the folowwing steps taken by the script to run the jenkins server
