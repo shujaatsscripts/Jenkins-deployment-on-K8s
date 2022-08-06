@@ -2,12 +2,11 @@
 
 ## Requirements
 This deployment requires certain prerequisites
-~~~
+
          * docker 20.10.17
          * minikube v1.26.1
          * kubectl [Major:"1", Minor:"24"]
          * terraform v1.2.5
-~~~
 
 ## Instruction to run
 Run the shell script to deploy the jenkins server
@@ -38,7 +37,7 @@ Important: This script will replace default file. If you are already using nginx
 ## Step by Step process of the script
 
 These are the folowwing steps taken by the script to run the jenkins server
-~~~
+
           * Minikube cluster creation
           * Images pull from the remote to shorten the deployment time
           * Terraform initialization
@@ -48,7 +47,6 @@ These are the folowwing steps taken by the script to run the jenkins server
           * ClusterRole creation
           * ClusterRolebinding creation
           * Jenkins server deployment using helm
-~~~
 
 
 ## References
