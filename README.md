@@ -1,5 +1,6 @@
-# Jenkins Deployment on Kubernetes with autoscaling executers
+# Jenkins deployment on Kubernetes(minikube) with autoscaling executers
 
+## Requirements
 This deployment requires certain prerequisites
     - docker
     - minikube
@@ -11,5 +12,4 @@ Run the shell script to deploy the jenkins server
 $ ./run.sh
 ```
 
-
-This script is tested on Windows 11
+This deployment is tested on Windows 11

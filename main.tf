@@ -32,11 +32,12 @@ resource "kubernetes_persistent_volume_v1" "persistent_volume" {
 #   }
 # }
 
-# resource "kubernetes_service_account_v1" "jenkins-sa" {
-#   metadata {
-#     name = var.serviceaccount
-#     namespace = var.namespace
-#   }
+resource "kubernetes_service_account_v1" "jenkins-sa" {
+  metadata {
+    name = var.serviceaccount
+    namespace = var.namespace
+  }
+}
 #   secret {
 #     name = "${kubernetes_secret_v1.jenkins-secret.metadata.0.name}"
 #   }
@@ -86,7 +87,7 @@ resource "kubernetes_cluster_role_binding_v1" "jenkins-crb" {
   }
   subject {
     kind      = "Group"
-    name      = "system:serviceaccounts:default"
+    name      = "system:serviceaccounts:jenkins"
     api_group = "rbac.authorization.k8s.io"
   }
   depends_on = [kubernetes_cluster_role_v1.jenkins-cluster-role ]
@@ -100,10 +101,6 @@ resource "helm_release" "jenkins-server" {
   values = [
     file("${path.module}/jenkins-values.yaml")
   ]
-  set {
-    name  = "nodePort"
-    value = "32000"
-  }
   timeout = 600
   depends_on = [kubernetes_cluster_role_binding_v1.jenkins-crb,kubernetes_namespace.jenkins_namespace, kubernetes_persistent_volume_v1.persistent_volume]
 }
