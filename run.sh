@@ -14,6 +14,6 @@ secret=$(kubectl get secret -n jenkins jenkins -o jsonpath=$jsonpath)
 echo "Password:"
 echo $(echo $secret | base64 --decode)
 
-minikube service jenkins --url
+minikube service jenkins -n jenkins --url
 
 
