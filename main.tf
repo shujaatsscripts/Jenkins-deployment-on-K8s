@@ -34,7 +34,7 @@ resource "kubernetes_persistent_volume_v1" "persistent_volume" {
 
 resource "kubernetes_service_account_v1" "jenkins-sa" {
   metadata {
-    name = var.serviceaccount
+    name = "jenkins"
     namespace = var.namespace
   }
 }
@@ -82,8 +82,9 @@ resource "kubernetes_cluster_role_binding_v1" "jenkins-crb" {
   }
   subject {
     kind      = "Group"
-    name      = "system:serviceaccounts:default"
+    name      = "system:serviceaccounts:jenkins"
     api_group = "rbac.authorization.k8s.io"
+    namespace = var.namespace
   }
   depends_on = [kubernetes_cluster_role_v1.jenkins-cluster-role ]
 }

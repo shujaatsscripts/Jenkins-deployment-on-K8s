@@ -23,10 +23,5 @@ variable "storageclass" {
   default     = "jenkins-pv"
 }
 
-variable "serviceaccount" {
-  description = "service account for jenkins"
-  default     = "jenkins"
-}
-
 
 

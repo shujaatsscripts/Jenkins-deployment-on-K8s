@@ -9,6 +9,6 @@ spec:
   - ReadWriteOnce
   capacity:
     storage: 20Gi
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Recycle
   hostPath:
     path: /data/jenkins-volume/
