@@ -11,11 +11,11 @@ This deployment requires certain prerequisites
 ## Instruction to run
 Run the shell script to deploy the jenkins server
 ```
-$ bash run.sh
+$ bash terraform/run.sh
 ```
 or 
 ```
-$ ./run.sh
+$ terraform/run.sh
 ```
 Copy the password and the link printed at the end of the script
 
@@ -29,7 +29,7 @@ then you need ngninx installation
 
 After installation run the following command to configure nginx site
 ```
-$ bash nginx.sh
+$ bash nginx/nginx.sh
 ```
 
 Important: This script will replace default file. If you are already using nginx kindly create a new site with nginx conf
