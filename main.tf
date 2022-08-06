@@ -6,7 +6,7 @@ resource "kubernetes_namespace" "jenkins_namespace" {
 
 resource "kubernetes_persistent_volume_v1" "persistent_volume" {
   metadata {
-    name = "${var.name}-pv"
+    name = "jenkins-pv"
     }
     spec {
       access_modes = [var.accessmode]
@@ -79,11 +79,6 @@ resource "kubernetes_cluster_role_binding_v1" "jenkins-crb" {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
     name      = var.name
-  }
-  subject {
-    kind      = "ServiceAccount"
-    name      = var.serviceaccount
-    namespace = var.namespace
   }
   subject {
     kind      = "Group"
