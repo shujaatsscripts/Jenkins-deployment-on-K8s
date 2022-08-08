@@ -1,0 +1,31 @@
+pipeline {
+    stages {
+        stage('Checkout') {
+            steps {
+                sh 'git clone https://github.com/shujaatsscripts/Jenkins-deployment-on-K8s . '
+                sh 'ls && commit=$(git log | grep -o '\w\{8,\}' | head -n 1)'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'cd react-app && docker build . -t react-app:$commit'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh ''
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'npm run test'
+            }
+        }
+    }
+}
