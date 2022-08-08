@@ -12,19 +12,9 @@ pipeline {
             }
         }
 
-        stage('Lint') {
+        stage('Deploy') {
             steps {
-                sh ''
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'npm run test'
+                sh 'kubectl apply -f react-app/deployment.yml'
             }
         }
     }
