@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29">
+  <g id="Group_21866" data-name="Group 21866" transform="translate(0 0.063)" opacity="0.41">
+    <rect id="Rectangle_2911" data-name="Rectangle 2911" width="29" height="29" transform="translate(0 -0.063)" fill="none"/>
+    <g id="briefcase" transform="translate(2.009 4.028)">
+      <path id="Path_74498" data-name="Path 74498" d="M15.286,6.684a1.041,1.041,0,0,1-1.041-1.041V4.082H10.082V5.643A1.041,1.041,0,1,1,8,5.643V4.082A2.084,2.084,0,0,1,10.082,2h4.164a2.084,2.084,0,0,1,2.082,2.082V5.643A1.041,1.041,0,0,1,15.286,6.684Z" transform="translate(0.327 -2)" fill="#fff"/>
+      <path id="Path_74499" data-name="Path 74499" d="M18.737,12.807v.958a.781.781,0,1,1-1.561,0v-.958H7.807v.958a.781.781,0,1,1-1.561,0v-.958H0v7.026A2.861,2.861,0,0,0,2.863,22.7H22.12a2.861,2.861,0,0,0,2.863-2.863V12.807ZM22.12,5H2.863A2.861,2.861,0,0,0,0,7.863v3.383H6.246v-1.3a.781.781,0,1,1,1.561,0v1.3h9.368v-1.3a.781.781,0,1,1,1.561,0v1.3h6.246V7.863A2.861,2.861,0,0,0,22.12,5Z" transform="translate(0 -1.877)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
