@@ -32,7 +32,8 @@ spec:
     stages {
         stage('Checkout') {
             steps {
-                sh 'git clone https://github.com/mendix/widgets-resources.git && cd widgets-resources'
+                sh 'workdir=$(pwd)'
+                sh 'git clone https://github.com/mendix/widgets-resources.git $workdir'
             }
         }
         stage('Install') {
