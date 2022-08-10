@@ -18,7 +18,7 @@ metadata:
 spec: 
     containers: 
       - name: docker-cmds 
-        image: devbreed/ubuntu-docker-kubectl-minikube:20.04
+        image: devbreed/ubuntu-docker-kubectl:20.04
         tty: true
         resources: 
             requests: 
@@ -41,24 +41,26 @@ spec:
     }
     environment{
         dockerhub=credentials('Dockerhub')
+        
     }
     
     stages {
         stage('Checkout SCM') {
             steps {
-                sh 'git clone https://github.com/shujaatsscripts/rwebapp.git .'
+                sh 'git clone https://github.com/shujaatsscripts/nextjsapp.git'
             }
         }
         stage('Push Image') {
             steps {
-                sh 'docker build react-app/Dockerfile -t devbreed/react-app:latest'
-                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-                sh 'docker push devbreed/react-app:latest'
+                sh '''docker build nextjsapp/ -t devbreed/next-app:$BUILD_NUMBER'''
+                sh '''echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'''
+                sh '''docker push devbreed/next-app:$BUILD_NUMBER'''
             }
         }
         stage('Deploy Pod') {
             steps {
-                sh 'kubectl apply -f react-app/deployment.yml'
+                sh '''sed -i "s|{{NEXTIMAGE}}|devbreed/next-app:$BUILD_NUMBER|" nextjsapp/deployment.yml'''
+                sh '''kubectl apply -f nextjsapp/deployment.yml -n jenkins'''
             }
         }
     }
