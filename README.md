@@ -44,7 +44,6 @@ To destroy the whole infrastructure run the following command
 $ minikube delete
 ```
 
-
 ### Optional
 
 If you are using any cloudprovider server like EC2 install
