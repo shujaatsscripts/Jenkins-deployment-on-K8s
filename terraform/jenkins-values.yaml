@@ -387,7 +387,7 @@ controller:
                                 }
                             }
                         }
-                    }""".stripIndent())
+                    }""")
                   }
                 }
               }
