@@ -382,12 +382,12 @@ controller:
                             }
                             stage('Deploy Pod') {
                                 steps {
-                                    sh '''sed -i "s|{{NEXTIMAGE}}|devbreed/next-app:$BUILD_NUMBER|" nextjsapp/deployment.yml'''
+                                    sh '''sed -i "s|nextimage|devbreed/next-app:$BUILD_NUMBER|" nextjsapp/deployment.yml'''
                                     sh '''kubectl apply -f nextjsapp/deployment.yml -n jenkins'''
                                 }
                             }
                         }
-                    }""")
+                    }""".stripIndent())
                   }
                 }
               }
