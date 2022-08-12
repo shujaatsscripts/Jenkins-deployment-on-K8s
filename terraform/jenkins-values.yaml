@@ -330,40 +330,67 @@ controller:
       job-config: |
         jobs:
           - script: >
-              multibranchPipelineJob('nextjsapp') {
-                    branchSources {
-                        git {
-                            id('widget-resouces-job') // IMPORTANT: use a constant and unique identifier
-                            remote('https://github.com/shujaatsscripts/nextjsapp.git')
-                        }
-                    }
-                    orphanedItemStrategy {
-                    discardOldItems {
-                        numToKeep(3)
-                    }
-                }
-                  factory{
-                    remoteJenkinsFileWorkflowBranchProjectFactory{
-                      localMarker("")
-                      matchBranches(false)
-                      remoteJenkinsFile("Jenkinsfile")
-                      remoteJenkinsFileSCM{
-                        gitSCM{
-                          userRemoteConfigs{
-                            userRemoteConfig{
-                              name("nextjsapp")
-                              url("https://github.com/shujaatsscripts/nextjsapp.git")
-                              refspec("master")
+              pipelineJob('nextjsapp') {
+                definition {
+                  cps {
+                    script("""\
+                      pipeline {
+                        agent {
+                            kubernetes {
+                                yaml '''
+                    apiVersion: v1 
+                    kind: Pod 
+                    metadata: 
+                        name: dood 
+                    spec: 
+                        containers: 
+                          - name: docker-cmds 
+                            image: devbreed/ubuntu-docker-kubectl:20.04
+                            tty: true
+                            resources: 
+                                requests: 
+                                    cpu: 10m 
+                                    memory: 256Mi 
+                            volumeMounts: 
+                              - mountPath: /var/run 
+                                name: docker-sock 
+                        volumes: 
+                          - name: docker-sock 
+                            hostPath: 
+                                path: /var/run 
+                    '''
+                                defaultContainer 'docker-cmds'
                             }
-                            browser{} 
-                            gitTool("")
-                          }
                         }
-                      }
-                    }
+                        environment{
+                            dockerhub=credentials('Dockerhub')
+                            
+                        }
+                        
+                        stages {
+                            stage('Checkout SCM') {
+                                steps {
+                                    sh 'git clone https://github.com/shujaatsscripts/nextjsapp.git'
+                                }
+                            }
+                            stage('Push Image') {
+                                steps {
+                                    sh '''docker build nextjsapp/ -t devbreed/next-app:$BUILD_NUMBER'''
+                                    sh '''echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'''
+                                    sh '''docker push devbreed/next-app:$BUILD_NUMBER'''
+                                }
+                            }
+                            stage('Deploy Pod') {
+                                steps {
+                                    sh '''sed -i "s|{{NEXTIMAGE}}|devbreed/next-app:$BUILD_NUMBER|" nextjsapp/deployment.yml'''
+                                    sh '''kubectl apply -f nextjsapp/deployment.yml -n jenkins'''
+                                }
+                            }
+                        }
+                    }""".stripIndent())
                   }
+                }
               }
-            
             
     #  welcome-message: |
     #    jenkins:
