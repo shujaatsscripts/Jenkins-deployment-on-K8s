@@ -243,6 +243,7 @@ controller:
     - workflow-aggregator:581.v0c46fa_697ffd
     - git:4.11.3
     - configuration-as-code:1429.v09b_044a_c93de
+    - job-dsl:1.77
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
@@ -315,7 +316,55 @@ controller:
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
     defaultConfig: true
-    configScripts: {}
+    configScripts:
+      jenkins-casc-configs: |
+        credentials:
+          system:
+              domainCredentials:
+              - credentials:
+                - usernamePassword:
+                    id: "Dockerhub"
+                    password: "Docker1812"
+                    scope: GLOBAL
+                    username: "devbreed"
+      job-config: |
+        jobs:
+          - script: >
+              multibranchPipelineJob('nextjsapp') {
+                    branchSources {
+                        git {
+                            id('widget-resouces-job') // IMPORTANT: use a constant and unique identifier
+                            remote('https://github.com/shujaatsscripts/nextjsapp.git')
+                        }
+                    }
+                    orphanedItemStrategy {
+                    discardOldItems {
+                        numToKeep(3)
+                    }
+                }
+                  factory{
+                    remoteJenkinsFileWorkflowBranchProjectFactory{
+                      localMarker("")
+                      matchBranches(false)
+                      remoteJenkinsFile("Jenkinsfile")
+                      remoteJenkinsFileSCM{
+                        gitSCM{
+                          userRemoteConfigs{
+                            userRemoteConfig{
+                              name("nextjsapp")
+                              url("https://github.com/shujaatsscripts/nextjsapp.git")
+                              refspec("master")
+                            }
+                            browser{} 
+                            gitTool("")
+                          }
+                        }
+                      }
+                    }
+                  }
+              }
+            
+            
     #  welcome-message: |
     #    jenkins:
     #      systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
