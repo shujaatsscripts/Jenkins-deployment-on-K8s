@@ -330,64 +330,22 @@ controller:
       job-config: |
         jobs:
           - script: >
-              pipelineJob('nextjsapp') {
+              folder('testjobs')
+          - script: >
+              pipelineJob('testjobs/default-agent') {
                 definition {
                   cps {
                     script("""\
                       pipeline {
-                        agent {
-                            kubernetes {
-                                yaml '''
-                    apiVersion: v1 
-                    kind: Pod 
-                    metadata: 
-                        name: dood 
-                    spec: 
-                        containers: 
-                          - name: docker-cmds 
-                            image: devbreed/ubuntu-docker-kubectl:20.04
-                            tty: true
-                            resources: 
-                                requests: 
-                                    cpu: 10m 
-                                    memory: 256Mi 
-                            volumeMounts: 
-                              - mountPath: /var/run 
-                                name: docker-sock 
-                        volumes: 
-                          - name: docker-sock 
-                            hostPath: 
-                                path: /var/run 
-                    '''
-                                defaultContainer 'docker-cmds'
-                            }
-                        }
-                        environment{
-                            dockerhub=credentials('Dockerhub')
-                            
-                        }
-                        
+                        agent any
                         stages {
-                            stage('Checkout SCM') {
-                                steps {
-                                    sh 'git clone https://github.com/shujaatsscripts/nextjsapp.git'
-                                }
+                          stage ('test') {
+                            steps {
+                              echo "hello"
                             }
-                            stage('Push Image') {
-                                steps {
-                                    sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
-                                    sh '''echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'''
-                                    sh '''docker push devbreed/next-app:latest'''
-                                }
-                            }
-                            stage('Deploy Pod') {
-                                steps {
-                                    sh '''sed -i "s|nextimage|devbreed/next-app:latest|" nextjsapp/deployment.yml'''
-                                    sh '''kubectl apply -f nextjsapp/deployment.yml -n jenkins'''
-                                }
-                            }
+                          }
                         }
-                    }""".stripIndent())
+                      }""".stripIndent())
                   }
                 }
               }
