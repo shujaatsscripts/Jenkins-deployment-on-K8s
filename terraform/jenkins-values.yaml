@@ -245,6 +245,7 @@ controller:
     - configuration-as-code:1429.v09b_044a_c93de
     - job-dsl:1.77
     - credentials-binding:523.vd859a_4b_122e6
+    - permissive-script-security:0.6
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
@@ -271,6 +272,8 @@ controller:
   enableRawHtmlMarkupFormatter: false
   # Used to approve a list of groovy functions in pipelines used the script-security plugin. Can be viewed under /scriptApproval
   scriptApproval: []
+  
+  javaOpts: '-Dpermissive-script-security.enabled=true'
   #  - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
   #  - "new groovy.json.JsonSlurperClassic"
   # List of groovy init scripts to be executed during Jenkins controller start
@@ -378,7 +381,8 @@ controller:
                               steps {
                                   sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
                                   sh '''echo \$dockerhub_PSW | docker login -u \$dockerhub_USR --password-stdin'''
-                                  sh '''docker push devbreed/next-app:latest'''
+                                  sh '''docker push devbreed/next-app:
+                                  '''
                             }
                           }
                           stage('Deploy Pod') {
