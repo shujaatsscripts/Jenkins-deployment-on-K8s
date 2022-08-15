@@ -325,7 +325,7 @@ controller:
               - credentials:
                 - usernamePassword:
                     id: "Dockerhub"
-                    password: "Docker1812"
+                    password: "Docker@1812"
                     scope: GLOBAL
                     username: "devbreed"
       job-config: |
@@ -377,7 +377,7 @@ controller:
                           stage('Push Image') {
                               steps {
                                   sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
-                                  sh '''echo docker@1812 | docker login -u devbreed --password-stdin'''
+                                  sh '''echo \$dockerhub_PSW | docker login -u \$dockerhub_USR --password-stdin'''
                                   sh '''docker push devbreed/next-app:latest'''
                             }
                           }
