@@ -375,12 +375,9 @@ controller:
                             }
                             stage('Push Image') {
                                 steps {
-                                    withCredentials([usernamePassword(credentialsId: 'Dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                                    
                                     sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
-                                    sh '''echo $PASSWORD | docker login -u $USERNAME --password-stdin'''
+                                    sh '''echo docker@1812 | docker login -u devbreed --password-stdin'''
                                     sh '''docker push devbreed/next-app:latest'''
-                                  }
                               }
                             }
                           stage('Deploy Pod') {
