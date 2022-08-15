@@ -331,7 +331,9 @@ controller:
       job-config: |
         jobs:
           - script: >
-              pipelineJob('nextjsapp') {
+              folder('Jobs')
+          - script: >
+              pipelineJob('Jobs/nextjsapp') {
                 definition {
                   cps {
                     script("""\
@@ -364,33 +366,32 @@ controller:
                             }
                         }
                         environment{
-                            dockerhub=credentials('Dockerhub')
-                            
+                          dockerhub=credentials('Dockerhub')
                         }
-                        
                         stages {
-                            stage('Checkout SCM') {
-                                steps {
-                                    sh 'git clone https://github.com/shujaatsscripts/nextjsapp.git'
-                                }
+                          stage('Checkout SCM') {
+                            steps {
+                              sh 'git clone https://github.com/shujaatsscripts/nextjsapp.git'
                             }
                             stage('Push Image') {
                                 steps {
                                     withCredentials([usernamePassword(credentialsId: 'Dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                                    }
+                                    
                                     sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
                                     sh '''echo $PASSWORD | docker login -u $USERNAME --password-stdin'''
                                     sh '''docker push devbreed/next-app:latest'''
-                                }
+                                  }
+                              }
                             }
-                            stage('Deploy Pod') {
-                                steps {
-                                    sh '''sed -i "s|nextimage|devbreed/next-app:latest|" nextjsapp/deployment.yml'''
-                                    sh '''kubectl apply -f nextjsapp/deployment.yml -n jenkins'''
-                                }
+                          stage('Deploy Pod') {
+                            steps {
+                              sh '''sed -i "s|nextimage|devbreed/next-app:latest|" nextjsapp/deployment.yml'''
+                              sh '''kubectl apply -f nextjsapp/deployment.yml -n jenkins'''
                             }
+                          }
                         }
-                    }""".stripIndent())
+                      }""".stripIndent()
+                    )
                   }
                 }
               }
