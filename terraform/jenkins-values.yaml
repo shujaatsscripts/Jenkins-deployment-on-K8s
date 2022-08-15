@@ -373,13 +373,14 @@ controller:
                             steps {
                               sh 'git clone https://github.com/shujaatsscripts/nextjsapp.git'
                             }
-                            stage('Push Image') {
-                                steps {
-                                    sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
-                                    sh '''echo docker@1812 | docker login -u devbreed --password-stdin'''
-                                    sh '''docker push devbreed/next-app:latest'''
-                              }
+                          }
+                          stage('Push Image') {
+                              steps {
+                                  sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
+                                  sh '''echo docker@1812 | docker login -u devbreed --password-stdin'''
+                                  sh '''docker push devbreed/next-app:latest'''
                             }
+                          }
                           stage('Deploy Pod') {
                             steps {
                               sh '''sed -i "s|nextimage|devbreed/next-app:latest|" nextjsapp/deployment.yml'''
@@ -389,7 +390,7 @@ controller:
                         }
                       }""".stripIndent()
                     )
-                  }
+
                 }
               }
             
