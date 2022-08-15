@@ -244,6 +244,7 @@ controller:
     - git:4.11.3
     - configuration-as-code:1429.v09b_044a_c93de
     - job-dsl:1.77
+    - credentials-binding:523.vd859a_4b_122e6
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
@@ -375,8 +376,10 @@ controller:
                             }
                             stage('Push Image') {
                                 steps {
+                                    withCredentials([usernamePassword(credentialsId: 'Dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                                    }
                                     sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
-                                    sh '''echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'''
+                                    sh '''echo $PASSWORD | docker login -u $USERNAME --password-stdin'''
                                     sh '''docker push devbreed/next-app:latest'''
                                 }
                             }
