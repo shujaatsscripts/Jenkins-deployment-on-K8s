@@ -378,7 +378,7 @@ controller:
                             stage('Push Image') {
                                 steps {
                                     sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
-                                    sh '''echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'''
+                                    sh '''echo $dockerhub_password | docker login -u $dockerhub_username --password-stdin'''
                                     sh '''docker push devbreed/next-app:latest'''
                                 }
                             }
