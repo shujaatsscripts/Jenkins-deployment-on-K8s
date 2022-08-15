@@ -3,9 +3,9 @@
 minikube start --memory 8192 --cpus 2
 minikube ssh 'sudo mkdir /data/jenkins-volume && sudo chown 1000:1000 -R /data/jenkins-volume'
 minikube ssh 'docker pull jenkins/jenkins:2.346.2-jdk11'
-minikube ssh 'docker pull kiwigrid/k8s-sidecar:1.15.0'
-minikube ssh 'docker pull jenkins/inbound-agent:4.11.2-4'
-minikube ssh 'docker pull maorfr/kube-tasks:0.2.0'
+#minikube ssh 'docker pull kiwigrid/k8s-sidecar:1.15.0'
+#minikube ssh 'docker pull jenkins/inbound-agent:4.11.2-4'
+#minikube ssh 'docker pull maorfr/kube-tasks:0.2.0'
 cd terraform
 terraform init
 terraform apply --auto-approve
