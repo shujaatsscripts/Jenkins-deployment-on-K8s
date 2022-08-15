@@ -390,7 +390,7 @@ controller:
                         }
                       }""".stripIndent()
                     )
-
+                  }
                 }
               }
             
