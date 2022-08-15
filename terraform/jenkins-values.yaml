@@ -328,9 +328,9 @@ controller:
               - credentials:
                 - usernamePassword:
                     id: "Dockerhub"
-                    password: "Docker@1812"
+                    password: "{{Password}}"
                     scope: GLOBAL
-                    username: "devbreed"
+                    username: "{{Username}}"
       job-config: |
         jobs:
           - script: >
@@ -381,13 +381,12 @@ controller:
                               steps {
                                   sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
                                   sh '''echo \$dockerhub_PSW | docker login -u \$dockerhub_USR --password-stdin'''
-                                  sh '''docker push devbreed/next-app:
-                                  '''
+                                  sh '''docker push devbreed/next-app:$BUILD_NUMBER'''
                             }
                           }
                           stage('Deploy Pod') {
                             steps {
-                              sh '''sed -i "s|nextimage|devbreed/next-app:latest|" nextjsapp/deployment.yml'''
+                              sh '''sed -i "s|nextimage|devbreed/next-app:$BUILD_NUMBER|" nextjsapp/deployment.yml'''
                               sh '''kubectl apply -f nextjsapp/deployment.yml -n jenkins'''
                             }
                           }
