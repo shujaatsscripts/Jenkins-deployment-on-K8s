@@ -273,7 +273,7 @@ controller:
   # Used to approve a list of groovy functions in pipelines used the script-security plugin. Can be viewed under /scriptApproval
   scriptApproval: []
   
-  javaOpts: '-Dpermissive-script-security.enabled=true'
+  javaOpts: '-Dpermissive-script-security.enabled=no_security'
   #  - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
   #  - "new groovy.json.JsonSlurperClassic"
   # List of groovy init scripts to be executed during Jenkins controller start
@@ -379,7 +379,7 @@ controller:
                           }
                           stage('Push Image') {
                               steps {
-                                  sh '''docker build nextjsapp/ -t devbreed/next-app:latest'''
+                                  sh '''docker build nextjsapp/ -t devbreed/next-app:\$BUILD_NUMBER'''
                                   sh '''echo \$dockerhub_PSW | docker login -u \$dockerhub_USR --password-stdin'''
                                   sh '''docker push devbreed/next-app:\$BUILD_NUMBER'''
                             }
